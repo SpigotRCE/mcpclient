@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "mcpclient",
+  "version": "${version}",
+  "name": "MCPClient",
+  "description": "Minecraft Pentesting Client",
+  "authors": [
+    "Pedro Agustin Vega"
+  ],
+  "contact": {
+    "website": "https://wrrulos.dev",
+    "repo": "https://github.com/pedroagustinvega/mcpclient"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/mcpclient/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "dev.wrrulos.mcpclient.client.Client"
+    ],
+    "main": [
+      "dev.wrrulos.mcpclient.MCPClient"
+    ]
+  },
+  "mixins": [
+    "mcpclient.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
