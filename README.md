@@ -11,7 +11,6 @@
 #### MCPClient is a Minecraft Pentesting client that allows you to connect to a Minecraft server and perform various tasks, such as impersonating another player using uuid spoofing, using custom client commands, and more. This tool is useful for pentesters who want to test the security of a Minecraft server.
 
 ## Features
-- Connect to a Minecraft server
 - Impersonate another player using uuid spoofing
 - Custom client commands
 
