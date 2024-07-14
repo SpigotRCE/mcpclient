@@ -1,7 +1,11 @@
-# MCPClient 1.0.0 | Minecraft Pentesting Client
+<h1 align="center">MCPClient 1.0.0</h1>
+<h3 align="center">Open source Minecraft Pentesting Client</h3>
+<br/>
 
 ![MCPClient](https://imgur.com/5F9IAtQ.jpg)
 
+<h4 align="center">This project was created for educational purposes and should not be used in environments without legal authorization.</p>
+<br/>
 
 ## What is MCPClient?
 #### MCPClient is a Minecraft Pentesting client that allows you to connect to a Minecraft server and perform various tasks, such as impersonating another player using uuid spoofing, using custom client commands, and more. This tool is useful for pentesters who want to test the security of a Minecraft server.
@@ -27,3 +31,6 @@
 
 ## Tips
 - You can download [ViaFabric+](https://modrinth.com/mod/viafabricplus) to connect to a server with a different version than the client.
+
+## 🔗 Discord Server
+Enter the discord server with this [link](https://discord.gg/TWKs6BWkR2)
