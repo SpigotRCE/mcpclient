@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class UpdateChecker {
     private static final String VERSION_URL = "https://raw.githubusercontent.com/pedroagustinvega/mcpclient/main/version";
-    private static final String LOCAL_VERSION = "1.0.1"; // Local version
+    private static final String LOCAL_VERSION = "1.0.0"; // Local version
     private static final Logger LOGGER = Logger.getLogger(UpdateChecker.class.getName());
 
     public static void main(String[] args) {

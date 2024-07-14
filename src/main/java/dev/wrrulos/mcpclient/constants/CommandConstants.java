@@ -3,7 +3,7 @@ package dev.wrrulos.mcpclient.constants;
 public class CommandConstants {
     // Command names
     public static final String HELP_COMMAND = "mcphelp";
-    public static final String PLAYERS_COMMAND = "players";
+    public static final String PLAYERS_COMMAND = "playerl";
     public static final String GAMEMODE_COMMAND = "fakegm";
 
     // Help messages
