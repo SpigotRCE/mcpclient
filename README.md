@@ -16,7 +16,7 @@
 2. Install Fabric loader 0.15.11 (1.21) or higher
 3. Download the latest release from the [releases page](https://github.com/pedroagustinvega/mcpclient/releases)
 4. Extract the zip file
-5. Copy the .jar file to your Minecraft mods folder
+5. Copy the .jar files to your Minecraft mods folder
 6. Copy "mcpfiles" folder to your .minecraft folder
 7. Run Minecraft with the Fabric loader profile
 

@@ -77,7 +77,6 @@ public class UpdateChecker {
                     reader.close();
                 } catch (IOException e) {
                     LOGGER.log(Level.WARNING, "Failed to close BufferedReader", e);
-                    return null;
                 }
             }
             if (connection != null) {
