@@ -56,4 +56,5 @@ public abstract class IconsMixin {
 
         return () -> new FileInputStream(file);
     }
+
 }
