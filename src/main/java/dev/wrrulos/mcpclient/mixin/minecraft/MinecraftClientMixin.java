@@ -2,9 +2,10 @@ package dev.wrrulos.mcpclient.mixin.minecraft;
 
 import dev.wrrulos.mcpclient.constants.ClientConstants;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.session.report.AbuseReportContext;
-import net.minecraft.resource.InputSupplier;
+import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
+import org.slf4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -12,17 +13,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftClientMixin {
-    @Shadow protected abstract boolean canExecute(Runnable task);
-
-    @Shadow public abstract AbuseReportContext getAbuseReportContext();
-
-    @Shadow protected abstract void cleanUpAfterCrash();
+    @Shadow @Final private static Logger LOGGER;
 
     /**
      * Get the window title
@@ -33,60 +30,91 @@ public abstract class MinecraftClientMixin {
         cir.setReturnValue(ClientConstants.WINDOW_TITLE);
     }
 
-    @Inject(method = "<init>", at = @At ("TAIL"))
+    /**
+     * Inject the transfer files method after the constructor
+     * :TODO: Currently the files are copied late and the client needs to be restarted after the first run.
+     * :TODO: This is a temporary solution, we should find a better way to transfer the files
+     * @param info Callback info
+     */
+    @Inject(method = "<init>", at = @At("RETURN"))
     private void onInit(CallbackInfo info) {
         transferFiles();
     }
 
+    /**
+     * Transfer the files to the game directory
+     */
     @Unique
     private void transferFiles() {
         ArrayList<Identifier> identifiers = new ArrayList<>();
 
+        // Get the game directory
         String gameDir = MinecraftClient.getInstance().runDirectory.getAbsolutePath();
         String filePath = gameDir + "\\mcpfiles\\";
         File dir = new File(filePath);
 
         // Add identifiers for the icons
-        identifiers.add(Identifier.of("mcpclient", "icons/icon16x16.png"));
-        identifiers.add(Identifier.of("mcpclient", "icons/icon32x32.png"));
-        identifiers.add(Identifier.of("mcpclient", "icons/icon48x48.png"));
-        identifiers.add(Identifier.of("mcpclient", "icons/icon128x128.png"));
-        identifiers.add(Identifier.of("mcpclient", "icons/icon256x256.png"));
-        identifiers.add(Identifier.of("mcpclient", "discord_game_sdk.dll"));
+        identifiers.add(Identifier.of("mcpclient", "icons/icon_16x16.png"));
+        identifiers.add(Identifier.of("mcpclient", "icons/icon_32x32.png"));
+        identifiers.add(Identifier.of("mcpclient", "icons/icon_48x48.png"));
+        identifiers.add(Identifier.of("mcpclient", "icons/icon_128x128.png"));
+        identifiers.add(Identifier.of("mcpclient", "icons/icon_256x256.png"));
+        identifiers.add(Identifier.of("mcpclient", "dll/discord_game_sdk.dll"));
 
         try {
             // Create the directory if it doesn't exist
-            dir.mkdirs();
+            if (!dir.exists()) {
+                var success = dir.mkdirs();
+
+                if (!success) {
+                    LOGGER.error("Error creating directory: {}", filePath);
+                    return;
+                }
+            }
 
             for (Identifier identifier : identifiers) {
                 // Create the full path for the file
                 File file = new File(filePath + identifier.getPath());
 
                 // Create the parent directories if they do not exist
-                file.getParentFile().mkdirs();
+                if (file.getParentFile() != null) {
+                    var success = file.getParentFile().mkdirs();
+
+                    if (!success) {
+                        LOGGER.error("Error creating directory for file: {}", file.getParentFile().getPath());
+                    }
+                }
 
                 // Create the file if it doesn't exist
                 if (!file.exists()) {
-                    file.createNewFile();
+                    var success = file.createNewFile();
+
+                    if (!success) {
+                        LOGGER.error("Error creating file: {}", file.getPath());
+                    }
                 }
 
                 // Write the InputStream to the file
-                try (InputStream inputStream = MinecraftClient.getInstance().getResourceManager().getResource(identifier).get().getInputStream();
-                     FileOutputStream outputStream = new FileOutputStream(file)) {
+                Optional<Resource> resourceOptional = MinecraftClient.getInstance().getResourceManager().getResource(identifier);
+                if (resourceOptional.isPresent()) {
+                    try (InputStream inputStream = resourceOptional.get().getInputStream();
+                         FileOutputStream outputStream = new FileOutputStream(file)) {
 
-                    byte[] buffer = new byte[1024];
-                    int bytesRead;
-                    while ((bytesRead = inputStream.read(buffer)) != -1) {
-                        outputStream.write(buffer, 0, bytesRead);
+                        byte[] buffer = new byte[1024];
+                        int bytesRead;
+
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                    } catch (IOException e) {
+                        LOGGER.error("Error writing file: {}", file.getPath(), e);
                     }
-                } catch (IOException e) {
-                    System.out.println("Error writing file: " + file.getPath());
-                    e.printStackTrace();
+                } else {
+                    LOGGER.error("Resource not found: {}", identifier);
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error creating directory: " + filePath);
-            e.printStackTrace();
+            LOGGER.error("Error transferring files", e);
         }
     }
 

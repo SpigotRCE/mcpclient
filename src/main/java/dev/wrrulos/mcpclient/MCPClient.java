@@ -6,6 +6,9 @@ import dev.wrrulos.mcpclient.updater.UpdateChecker;
 import net.fabricmc.api.ModInitializer;
 import dev.wrrulos.mcpclient.client.session.SessionController;
 
+/**
+ * MCPClient
+ */
 public class MCPClient implements ModInitializer {
     private static final SessionController sessionController = new SessionController();
 
