@@ -48,8 +48,6 @@ public class GamemodeCommand {
      * @return Integer value (1)
      */
     private static int executeGameMode(CommandContext<FabricClientCommandSource> context, String mode) {
-        context.getSource().sendFeedback(ColorUtil.parseColoredText(CommandConstants.PLAYERS_MESSAGE));
-
         switch (mode.toLowerCase()) {
             case "survival":
                 gameMode = GameMode.SURVIVAL;
