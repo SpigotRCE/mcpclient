@@ -1,4 +1,4 @@
-package dev.wrrulos.mcpclient.mixin.Icons;
+package dev.wrrulos.mcpclient.mixin.icons;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Icons;
@@ -27,11 +27,11 @@ public abstract class IconsMixin {
     @Inject(method = "getIcons", at = @At("HEAD"), cancellable = true)
     private void onGetIcons(ResourcePack resourcePack, CallbackInfoReturnable<List<InputSupplier<InputStream>>> cir) throws IOException {
         List<InputSupplier<InputStream>> customIcons = List.of(
-            getCustomIcon("icon16x16.png"),
-            getCustomIcon("icon32x32.png"),
-            getCustomIcon("icon48x48.png"),
-            getCustomIcon("icon128x128.png"),
-            getCustomIcon("icon256x256.png")
+            getCustomIcon("icon_16x16.png"),
+            getCustomIcon("icon_32x32.png"),
+            getCustomIcon("icon_48x48.png"),
+            getCustomIcon("icon_128x128.png"),
+            getCustomIcon("icon_256x256.png")
         );
         cir.setReturnValue(customIcons);
         cir.cancel();

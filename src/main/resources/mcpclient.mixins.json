@@ -10,7 +10,7 @@
     "gui.PauseScreenMixin",
     "gui.ScreenMixin",
     "gui.ServerSelectionScreenMixin",
-    "Icons.IconsMixin",
+    "icons.IconsMixin",
     "minecraft.MinecraftClientMixin",
     "session.ClientPlayNetworkHandlerMixin",
     "session.SessionMixin"
