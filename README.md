@@ -1,4 +1,4 @@
-<h1 align="center">MCPClient 1.0.0</h1>
+<h1 align="center">⛏️ MCPClient 1.0.0</h1>
 <h3 align="center">Open source Minecraft Pentesting Client</h3>
 <br/>
 
