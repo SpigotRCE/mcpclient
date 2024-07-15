@@ -1,5 +1,6 @@
 package dev.wrrulos.mcpclient.client.command.commands;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import dev.wrrulos.mcpclient.data.PlayerData;
 import dev.wrrulos.mcpclient.util.ColorUtil;
@@ -44,6 +45,6 @@ public class PlayersCommand {
         context.getSource().getPlayer().sendMessage(ColorUtil.parseColoredText(CommandConstants.PLAYERS_TITLE));
 
         playerDataMap.forEach((name, playerData) -> context.getSource().getPlayer().sendMessage(playerData.getMessage(), false));
-        return 1;
+        return Command.SINGLE_SUCCESS;
     }
 }

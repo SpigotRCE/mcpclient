@@ -1,5 +1,6 @@
 package dev.wrrulos.mcpclient.client.command.commands;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import dev.wrrulos.mcpclient.util.ColorUtil;
 import dev.wrrulos.mcpclient.constants.CommandConstants;
@@ -29,7 +30,7 @@ public class HelpCommand {
      */
     private static int executeRoot(CommandContext<FabricClientCommandSource> context) {
         context.getSource().sendFeedback(ColorUtil.parseColoredText(CommandConstants.GENERAL_MESSAGE));
-        return 1;
+        return Command.SINGLE_SUCCESS;
     }
 
     /**
@@ -39,7 +40,7 @@ public class HelpCommand {
      */
     private static int executePlayers(CommandContext<FabricClientCommandSource> context) {
         context.getSource().sendFeedback(ColorUtil.parseColoredText(CommandConstants.PLAYERS_MESSAGE));
-        return 1;
+        return Command.SINGLE_SUCCESS;
     }
 
     /**
@@ -49,6 +50,6 @@ public class HelpCommand {
      */
     private static int executeGamemode(CommandContext<FabricClientCommandSource> context) {
         context.getSource().sendFeedback(ColorUtil.parseColoredText(CommandConstants.GAMEMODE_MESSAGE));
-        return 1;
+        return Command.SINGLE_SUCCESS;
     }
 }

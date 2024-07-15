@@ -1,5 +1,6 @@
 package dev.wrrulos.mcpclient.client.command.commands;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import dev.wrrulos.mcpclient.util.ColorUtil;
 import dev.wrrulos.mcpclient.util.StringUtil;
@@ -38,7 +39,7 @@ public class GamemodeCommand {
      */
     private static int executeRoot(CommandContext<FabricClientCommandSource> context) {
         context.getSource().sendFeedback(ColorUtil.parseColoredText(CommandConstants.GAMEMODE_MISSING));
-        return 1;
+        return Command.SINGLE_SUCCESS;
     }
 
     /**
@@ -65,6 +66,6 @@ public class GamemodeCommand {
 
         context.getSource().getClient().interactionManager.setGameMode(gameMode);
         context.getSource().getPlayer().sendMessage(ColorUtil.parseColoredText(CommandConstants.GAMEMODE_CHANGED + StringUtil.capitalizeFirstLetter(mode)), false);
-        return 1;
+        return Command.SINGLE_SUCCESS;
     }
 }
